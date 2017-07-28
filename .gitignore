@@ -1,0 +1,5 @@
+.ipynb_checkpoints
+*.p
+*.s
+data*
+linux_sim

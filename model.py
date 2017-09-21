@@ -71,15 +71,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     # parameters
-    csv_path = 'data-joystick-5k/'
+    csv_path = 'data-joystick-5-loops/'
     csv_name = 'driving_log.csv'
     
     monitor = 'val_loss'
-    save_dir = 'saved-ptc-' + str(args.pct) + '/'
-    save_name = 'weights-{epoch:03d}-train_loss-{train_loss:.5f}-val_loss-{val_loss:.5f}.hdf5'
+    save_dir = 'saved-5-loops-ptc-' + str(args.pct) + '/'
+    save_name = 'weights-{epoch:03d}-val_loss-{val_loss:.5f}.hdf5'
     
     batch_size = 32
-    epochs = 200
+    epochs = 5
     
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
@@ -115,10 +115,15 @@ if __name__ == '__main__':
     model.add(Cropping2D(cropping=((60, 20), (0, 0)), input_shape=(160, 320, 3)))
     model.add(Lambda(lambda x: (x / 127.5) - 1.))
     model.add(Conv2D(24, (5, 5), strides=(2, 2), activation='relu'))
+    model.add(Dropout(0.5))
     model.add(Conv2D(36, (5, 5), strides=(2, 2), activation='relu'))
+    model.add(Dropout(0.5))
     model.add(Conv2D(48, (5, 5), strides=(2, 2), activation='relu'))
+    model.add(Dropout(0.5))
     model.add(Conv2D(64, (3, 3), strides=(1, 1), activation='relu'))
+    model.add(Dropout(0.5))
     model.add(Conv2D(64, (3, 3), strides=(1, 1), activation='relu'))
+    model.add(Dropout(0.5))
     model.add(Flatten())
     model.add(Dense(100, activation='relu'))
     model.add(Dropout(0.5))

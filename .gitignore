@@ -7,3 +7,5 @@ linux_sim
 *.hdf5
 __pycache__
 test.py
+*.err
+*.out

@@ -47,12 +47,12 @@ def generator(samples, batch_size=32):
                 left_angle = center_angle + correction
                 right_angle = center_angle - correction
                 
-                images.extend([left_image, center_image, right_image, 
-                    flipped_left_image, flipped_center_image, flipped_right_image])
-                #images.extend([left_image, center_image, right_image])
-                angles.extend([left_angle, center_angle, right_angle,
-                    -left_angle, -center_angle, -right_angle])
-                #angles.extend([left_angle, center_angle, right_angle])
+                #images.extend([left_image, center_image, right_image, 
+                #    flipped_left_image, flipped_center_image, flipped_right_image])
+                images.extend([left_image, center_image, right_image])
+                #angles.extend([left_angle, center_angle, right_angle,
+                #    -left_angle, -center_angle, -right_angle])
+                angles.extend([left_angle, center_angle, right_angle])
             X = np.array(images)
             y = np.array(angles)
             yield shuffle(X, y)
@@ -71,15 +71,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     # parameters
-    csv_path = 'data-joystick-5-loops/'
+    csv_path = 'data-joystick-5-loops-reversed/'
     csv_name = 'driving_log.csv'
     
     monitor = 'val_loss'
-    save_dir = 'saved-5-loops-ptc-' + str(args.pct) + '/'
+    save_dir = 'saved-5-loops-reversed-ptc-' + str(args.pct) + '/'
     save_name = 'weights-{epoch:03d}-val_loss-{val_loss:.5f}.hdf5'
     
-    batch_size = 32
-    epochs = 5
+    batch_size = 128
+    epochs = 20
     
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
@@ -115,15 +115,10 @@ if __name__ == '__main__':
     model.add(Cropping2D(cropping=((60, 20), (0, 0)), input_shape=(160, 320, 3)))
     model.add(Lambda(lambda x: (x / 127.5) - 1.))
     model.add(Conv2D(24, (5, 5), strides=(2, 2), activation='relu'))
-    model.add(Dropout(0.5))
     model.add(Conv2D(36, (5, 5), strides=(2, 2), activation='relu'))
-    model.add(Dropout(0.5))
     model.add(Conv2D(48, (5, 5), strides=(2, 2), activation='relu'))
-    model.add(Dropout(0.5))
     model.add(Conv2D(64, (3, 3), strides=(1, 1), activation='relu'))
-    model.add(Dropout(0.5))
     model.add(Conv2D(64, (3, 3), strides=(1, 1), activation='relu'))
-    model.add(Dropout(0.5))
     model.add(Flatten())
     model.add(Dense(100, activation='relu'))
     model.add(Dropout(0.5))
@@ -143,8 +138,8 @@ if __name__ == '__main__':
     
     model.fit_generator(
         train_generator,
-        steps_per_epoch=(len(train_samples)*6)//batch_size,
+        steps_per_epoch=(len(train_samples)*3)//batch_size,
         validation_data=valid_generator,
-        validation_steps=(len(valid_samples)*6)//batch_size,
+        validation_steps=(len(valid_samples)*3)//batch_size,
         callbacks=callbacks_list,
         epochs=epochs)

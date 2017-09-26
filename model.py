@@ -20,32 +20,42 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Flatten, Dense, Dropout
 from keras.callbacks import ModelCheckpoint
 
+def bgr2rgb(img):
+    return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 # generator for to load the batch
 def generator(samples, batch_size=32):
     n_samples = samples.shape[0]
     while 1:
         for offset in range(0, n_samples, batch_size):
-            batch_samples = samples[offset:offset+batch_size]
+            samples = shuffle(samples)
+            batch_samples_left = samples[offset:offset+batch_size]
+            samples = shuffle(samples)
+            batch_samples_center = samples[offset:offset+batch_size]
+            samples = shuffle(samples)
+            batch_samples_right = samples[offset:offset+batch_size]
             images = []
             angles = []
             correction = 0.2
-            for batch_sample in batch_samples:
-                left_path = './' + csv_path + 'IMG/' + batch_sample[1].split('/')[-1]
-                center_path = './' + csv_path + 'IMG/' + batch_sample[0].split('/')[-1]
-                right_path = './' + csv_path + 'IMG/' + batch_sample[2].split('/')[-1]
+            for batch_sample_left, batch_sample_center, batch_sample_right in\
+                zip(batch_samples_left, batch_samples_center, batch_samples_right):
+                left_path = './' + csv_path + 'IMG/' + batch_sample_left[1].split('/')[-1]
+                center_path = './' + csv_path + 'IMG/' + batch_sample_center[0].split('/')[-1]
+                right_path = './' + csv_path + 'IMG/' + batch_sample_right[2].split('/')[-1]
 
-                left_image = cv2.imread(left_path)
-                center_image = cv2.imread(center_path)
-                right_image = cv2.imread(right_path)
+                left_image = bgr2rgb(cv2.imread(left_path))
+                center_image = bgr2rgb(cv2.imread(center_path))
+                right_image = bgr2rgb(cv2.imread(right_path))
 
-                flipped_left_image = cv2.flip(left_image, 1)
-                flipped_center_image = cv2.flip(center_image, 1)
-                flipped_right_image = cv2.flip(right_image, 1)
+                #flipped_left_image = cv2.flip(left_image, 1)
+                #flipped_center_image = cv2.flip(center_image, 1)
+                #flipped_right_image = cv2.flip(right_image, 1)
                 
-                center_angle = float(batch_sample[3])
-                left_angle = center_angle + correction
-                right_angle = center_angle - correction
+                center_angle_left = float(batch_sample_left[3])
+                center_angle = float(batch_sample_center[3])
+                center_angle_right = float(batch_sample_right[3])
+                left_angle = center_angle_left + correction
+                right_angle = center_angle_right - correction
                 
                 #images.extend([left_image, center_image, right_image, 
                 #    flipped_left_image, flipped_center_image, flipped_right_image])
@@ -55,7 +65,7 @@ def generator(samples, batch_size=32):
                 angles.extend([left_angle, center_angle, right_angle])
             X = np.array(images)
             y = np.array(angles)
-            yield shuffle(X, y)
+            yield (X, y)
 
 
 if __name__ == '__main__':
@@ -75,11 +85,11 @@ if __name__ == '__main__':
     csv_name = 'driving_log.csv'
     
     monitor = 'val_loss'
-    save_dir = 'saved-5-loops-reversed-ptc-' + str(args.pct) + '/'
+    save_dir = 'saved-models/'
     save_name = 'weights-{epoch:03d}-val_loss-{val_loss:.5f}.hdf5'
     
-    batch_size = 128
-    epochs = 20
+    batch_size = 200
+    epochs = 10
     
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
@@ -97,12 +107,13 @@ if __name__ == '__main__':
     train_samples, valid_samples = train_test_split(samples, test_size=0.3, random_state=100)
     
     train_samples = np.array(train_samples)
-    print(train_samples.shape)
+    #print(train_samples.shape)
     # reduce the number of rows with angle=0
     # pct is the percentage to remove elements, example: (int)100 removes all
     train_samples = exclude_by_value(train_samples, 3, '0', pct=args.pct)
-    print(train_samples.shape)
     valid_samples = np.array(valid_samples)
+    print(train_samples.shape)
+    print(valid_samples.shape)
 
     # define generators
     train_generator = generator(train_samples, batch_size=batch_size)
@@ -120,12 +131,12 @@ if __name__ == '__main__':
     model.add(Conv2D(64, (3, 3), strides=(1, 1), activation='relu'))
     model.add(Conv2D(64, (3, 3), strides=(1, 1), activation='relu'))
     model.add(Flatten())
+    model.add(Dropout(0.5))
     model.add(Dense(100, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(50, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(10, activation='relu'))
-    model.add(Dropout(0.5))
     model.add(Dense(1))
     
     #sgd = keras.optimizers.SGD(lr=0.01)

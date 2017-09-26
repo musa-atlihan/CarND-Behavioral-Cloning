@@ -1,0 +1,32 @@
+2017-09-25 00:35:50.060967: I tensorflow/core/common_runtime/gpu/gpu_device.cc:961] DMA: 0 
+2017-09-25 00:35:50.060977: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] 0:   Y 
+2017-09-25 00:35:50.060988: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1030] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GT 650M, pci bus id: 0000:01:00.0)
+141/142 [============================>.] - ETA: 3s - loss: 0.0161 - acc: 0.1631Epoch 00000: saving model to saved-models/weights-000-val_loss-0.01123.hdf5
+142/142 [==============================] - 527s - loss: 0.0161 - acc: 0.1632 - val_loss: 0.0112 - val_acc: 0.1654
+Epoch 2/10
+141/142 [============================>.] - ETA: 3s - loss: 0.0108 - acc: 0.1650Epoch 00001: saving model to saved-models/weights-001-val_loss-0.00965.hdf5
+142/142 [==============================] - 499s - loss: 0.0108 - acc: 0.1650 - val_loss: 0.0097 - val_acc: 0.1645
+Epoch 3/10
+141/142 [============================>.] - ETA: 3s - loss: 0.0081 - acc: 0.1638Epoch 00002: saving model to saved-models/weights-002-val_loss-0.00670.hdf5
+142/142 [==============================] - 498s - loss: 0.0081 - acc: 0.1640 - val_loss: 0.0067 - val_acc: 0.1659
+Epoch 4/10
+141/142 [============================>.] - ETA: 3s - loss: 0.0062 - acc: 0.1633Epoch 00003: saving model to saved-models/weights-003-val_loss-0.00629.hdf5
+142/142 [==============================] - 498s - loss: 0.0062 - acc: 0.1632 - val_loss: 0.0063 - val_acc: 0.1635
+Epoch 5/10
+141/142 [============================>.] - ETA: 3s - loss: 0.0052 - acc: 0.1628Epoch 00004: saving model to saved-models/weights-004-val_loss-0.00630.hdf5
+142/142 [==============================] - 533s - loss: 0.0052 - acc: 0.1627 - val_loss: 0.0063 - val_acc: 0.1668
+Epoch 6/10
+141/142 [============================>.] - ETA: 3s - loss: 0.0045 - acc: 0.1645Epoch 00005: saving model to saved-models/weights-005-val_loss-0.00599.hdf5
+142/142 [==============================] - 499s - loss: 0.0045 - acc: 0.1644 - val_loss: 0.0060 - val_acc: 0.1652
+Epoch 7/10
+141/142 [============================>.] - ETA: 3s - loss: 0.0040 - acc: 0.1644Epoch 00006: saving model to saved-models/weights-006-val_loss-0.00582.hdf5
+142/142 [==============================] - 500s - loss: 0.0040 - acc: 0.1643 - val_loss: 0.0058 - val_acc: 0.1667
+Epoch 8/10
+141/142 [============================>.] - ETA: 3s - loss: 0.0035 - acc: 0.1630Epoch 00007: saving model to saved-models/weights-007-val_loss-0.00537.hdf5
+142/142 [==============================] - 500s - loss: 0.0035 - acc: 0.1631 - val_loss: 0.0054 - val_acc: 0.1666
+Epoch 9/10
+141/142 [============================>.] - ETA: 3s - loss: 0.0032 - acc: 0.1637Epoch 00008: saving model to saved-models/weights-008-val_loss-0.00538.hdf5
+142/142 [==============================] - 500s - loss: 0.0032 - acc: 0.1639 - val_loss: 0.0054 - val_acc: 0.1617
+Epoch 10/10
+141/142 [============================>.] - ETA: 3s - loss: 0.0029 - acc: 0.1641Epoch 00009: saving model to saved-models/weights-009-val_loss-0.00552.hdf5
+142/142 [==============================] - 500s - loss: 0.0029 - acc: 0.1642 - val_loss: 0.0055 - val_acc: 0.1655

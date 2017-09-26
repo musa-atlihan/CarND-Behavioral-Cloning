@@ -82,7 +82,7 @@ The [weights](./saved-models) after the ninth epoh is used for testing the model
 
 After the training, the model tested on track one in the simulation. As the result, car learns to drive successfully around the track. For the video record please refer to this [youtube link](https://youtu.be/C85PP9o9Cx8).
 
-[![autonomous drive test](./images/video.g,f)](https://youtu.be/C85PP9o9Cx8)
+[![autonomous drive test](./images/video.gif)](https://youtu.be/C85PP9o9Cx8)
 
 ## Reflections
 

@@ -3,8 +3,6 @@
 *.s
 data*
 linux_sim
-*.h5
-*.hdf5
 __pycache__
 test.py
 *.err

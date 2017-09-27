@@ -23,15 +23,15 @@ A distribution of steering angle values is given below for one direction and bot
 
 As can be seen from the figures, driving for only one direction causes unbalanced steering examples.
 
-In addition, the car is driven using a joystick (Logitech Extreme 3D Pro Joystick) in order to get smooth steering angle values by avoiding discrete and sharp ones. Driving the car with a keyboard causes sharp and descrete values and the steering data becomes unbalanced by having more steering examples with the value of zero. Below, a steering value distribution for a keyboard and a joystick is given.
+In addition, the car is driven using a joystick (Logitech Extreme 3D Pro Joystick) in order to get smooth steering angle values by avoiding discrete and sharp ones. Driving the car with a keyboard causes sharp and discrete values and the steering data becomes unbalanced by having more steering examples with the value of zero. Below, a steering value distribution for a keyboard and a joystick is given.
 
 ![keyboard joystick distribution](./images/keyboard-joystick.png)
 
 As can be seen from the figures, there are more steering examples with the value of zero when a keyboard is used.
 
-By driving the car in both directions for about ten loops in total, three road images from left, center and right cameras along with steering, throttle, breake and speed values are recorded. Some examples from these camera images are given below.
+By driving the car in both directions for about ten loops in total, three road images from left, center and right cameras along with steering, throttle, brake and speed values are recorded. Some examples from these camera images are given below.
 
-![exmple camera images](./images/camera-images.png)
+![example camera images](./images/camera-images.png)
 
 ## Model Architecture
 
@@ -43,13 +43,13 @@ Credits [NVIDIA DAVE-2](https://arxiv.org/pdf/1604.07316v1.pdf)
 
 As can be seen from the figure, the model has three input channels. NVIDIA uses three color channels from YUV space. However, since the tract one has no difficult lighting conditions, RGB color channels are used as input in the project.
 
-Additionally, in order to avoid any distruction from unnecessary areas in the images, the top and the bottom of the input images are cropped leaving only the road view. An example is given below for cropping the input.
+Additionally, in order to avoid any distraction from unnecessary areas in the images, the top and the bottom of the input images are cropped leaving only the road view. An example is given below for cropping the input.
 
 ![cropped input](./images/cropped_input.png)
 
 The original images are in a size of 320x160x3 and after the cropping the input size becomes 320x80x3.
 
-After the input cropped and normalized, the model has five convolutional layers. The first three layers have 5x5 and the following two have 3x3 kernel size. The number of kernels for these layers are 24, 36, 48, 64 and 64 from first to fifth layers respectively. The fifth convolutional layer is flattened and connectected to a dense layer with 100 neurons. And then, the following two additional dense layers have 50 and 10 neurans respectively. The final layer has only one neuron and outputs the steering angle values.
+After the input cropped and normalized, the model has five convolutional layers. The first three layers have 5x5 and the following two have 3x3 kernel size. The number of kernels for these layers are 24, 36, 48, 64 and 64 from first to fifth layers respectively. The fifth convolutional layer is flattened and connectected to a dense layer with 100 neurons. And then, the following two additional dense layers have 50 and 10 neurons respectively. The final layer has only one neuron and outputs the steering angle values.
 
 Since the dataset does not have a rich variety of examples from different tracks, dropout (with 0.5 ratio) is applied after the flattened output of the fifth convolutional layer and the dense layers with 100 and 50 neurons in order to avoid overfitting. If a dropout is applied after the dense layer with 10 neurons, model underfits due to small number of neurons in this layer. Thus, no dropout is applied after this layer.
 
@@ -76,7 +76,7 @@ After one epoch of training, the model is able to complete the tract successfull
 
 ![validation and train losses for each epoch](./images/val-train-loss.png)
 
-The [weights](./saved-models) after the ninth epoh is used for testing the model.
+The [weights](./saved-models) after the ninth epoch is used for testing the model.
 
 ## Testing the Model in the Simulation
 
